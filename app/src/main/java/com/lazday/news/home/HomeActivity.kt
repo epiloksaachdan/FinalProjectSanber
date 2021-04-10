@@ -22,10 +22,14 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val adapter = NewsAdapter(arrayListOf())
+        binding.listNews.adapter = adapter
+
         viewModel.news.observe(this, {
-            it.articles.forEach {  article ->
-                Log.e("HomeActivity", "fetch: ${article.title}")
-            }
+//            it.articles.forEach {  article ->
+//                Log.e("HomeActivity", "fetch: ${article.title}")
+//            }
+            adapter.add( it.articles )
         })
 
         viewModel.bookmarks.observe(this, {
