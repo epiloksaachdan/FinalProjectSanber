@@ -1,7 +1,7 @@
 package com.lazday.news.retrofit
 
-import com.lazday.news.room.NewsSaveDao
-import com.lazday.news.room.NewsSaveModel
+import com.lazday.news.room.BookmarkDao
+import com.lazday.news.room.BookmarkModel
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -10,9 +10,9 @@ val repositoryModule = module {
 
 class NewsRepository(
     private val api: NewsApi,
-    private val bookmark: NewsSaveDao,
+    private val bookmark: BookmarkDao,
 ) {
     suspend fun topHeadlines() = api.topHeadlines()
-    suspend fun add(newsSaveModel: NewsSaveModel) = bookmark.add(newsSave = newsSaveModel)
+    suspend fun add(bookmarkModel: BookmarkModel) = bookmark.add(bookmarkModel)
     fun bookmarks() = bookmark.findAll()
 }

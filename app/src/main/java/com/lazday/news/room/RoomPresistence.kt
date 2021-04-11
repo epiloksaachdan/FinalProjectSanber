@@ -16,7 +16,7 @@ fun provideDatabase(application: Application): NewsDatabase {
         .build()
 }
 
-fun provideNewsSaveDao(database: NewsDatabase): NewsSaveDao {
-    return  database.newsSaveDao
+fun provideNewsSaveDao(database: NewsDatabase): BookmarkDao {
+    return  database.bookmarkDao
 }
 

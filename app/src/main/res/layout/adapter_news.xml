@@ -33,13 +33,27 @@
         tools:ignore="SmallSp" />
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         tools:text="2 deputies shot outside Salt Lake Co. Sheriff's Office in South Salt Lake - fox13now.com"
         android:textSize="18sp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bookmark"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        />
+    <ImageView
+        android:id="@+id/bookmark"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_bookmark_add"
+        app:tint="@color/teal_200"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="@+id/image"
         app:layout_constraintTop_toBottomOf="@+id/image"
         />
 

@@ -1,19 +1,19 @@
-package com.lazday.news.home
+package com.lazday.news.ui.news
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lazday.news.retrofit.NewsModel
 import com.lazday.news.retrofit.NewsRepository
-import com.lazday.news.room.NewsSaveModel
+import com.lazday.news.room.BookmarkModel
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
 
-val homeViewModel = module {
-    factory { HomeViewModel(get()) }
+val newsViewModel = module {
+    factory { NewsViewModel(get()) }
 }
 
-class HomeViewModel(
+class NewsViewModel(
     private val repository: NewsRepository
 ) : ViewModel() {
 
@@ -26,7 +26,7 @@ class HomeViewModel(
         }
     }
 
-    fun add (newsSaveModel: NewsSaveModel) {
+    fun add (newsSaveModel: BookmarkModel) {
         viewModelScope.launch {
             repository.add(newsSaveModel)
         }

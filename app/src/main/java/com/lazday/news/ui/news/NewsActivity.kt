@@ -1,21 +1,20 @@
-package com.lazday.news.home
+package com.lazday.news.ui.news
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.lazday.news.R
 import com.lazday.news.databinding.ActivityHomeBinding
-import com.lazday.news.room.NewsSaveModel
+import com.lazday.news.room.BookmarkModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
-val homeModule = module {
-    factory { HomeActivity() }
+val newsModule = module {
+    factory { NewsActivity() }
 }
 
-class HomeActivity : AppCompatActivity() {
+class NewsActivity : AppCompatActivity() {
 
-    private val viewModel: HomeViewModel by viewModel()
+    private val viewModel: NewsViewModel by viewModel()
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
 
             count ++
             viewModel.add(
-                NewsSaveModel(count.toString(), "https://images.com", "Berita Utama")
+                BookmarkModel(count.toString(), "https://images.com", "Berita Utama")
             )
         }
     }

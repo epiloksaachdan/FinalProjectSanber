@@ -7,11 +7,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface NewsSaveDao {
+interface BookmarkDao {
 
-    @Query("SELECT * FROM tableSave")
-    fun findAll(): LiveData<List<NewsSaveModel>>
+    @Query("SELECT * FROM tableBookmark")
+    fun findAll(): LiveData<List<BookmarkModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun add(newsSave: NewsSaveModel)
+    suspend fun add(bookmarkModel: BookmarkModel)
 }

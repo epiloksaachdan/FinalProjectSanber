@@ -1,4 +1,4 @@
-package com.lazday.news.home
+package com.lazday.news.ui.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

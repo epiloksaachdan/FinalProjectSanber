@@ -1,13 +1,27 @@
 package com.lazday.news.ui.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.lazday.news.retrofit.NewsModel
+import com.lazday.news.retrofit.NewsRepository
+import kotlinx.coroutines.launch
+import org.koin.dsl.module
 
-class HomeViewModel : ViewModel() {
+val homeViewModel = module {
+    factory { HomeViewModel(get()) }
+}
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+class HomeViewModel(
+    private val repository: NewsRepository
+) : ViewModel() {
+
+    val news by lazy { MutableLiveData<NewsModel>() }
+
+    init {
+        viewModelScope.launch {
+            news.value =  repository.topHeadlines()
+        }
     }
-    val text: LiveData<String> = _text
+
 }
