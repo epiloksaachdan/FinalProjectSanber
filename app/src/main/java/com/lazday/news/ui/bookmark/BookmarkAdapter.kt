@@ -27,11 +27,11 @@ class BookmarkAdapter(
         val article = articles[position]
         holder.binding.title.text = article.title
         holder.binding.publishedAt.text = dateFormat( article.publishedAt )
-        holder.binding.bookmark.setImageResource(R.drawable.ic_bookmark_remove)
         Glide.with(holder.binding.image)
             .load( article.urlImage )
             .into(holder.binding.image)
-        holder.itemView.setOnClickListener {
+        holder.binding.bookmark.setImageResource(R.drawable.ic_bookmark_remove)
+        holder.binding.bookmark.setOnClickListener {
             listener?.onClick( article )
         }
     }

@@ -26,12 +26,11 @@ class NewsAdapter(
         val article = articles[position]
         holder.binding.title.text = article.title
         holder.binding.publishedAt.text = dateFormat( article.publishedAt )
-        holder.binding.bookmark.setImageResource(R.drawable.ic_bookmark_add)
         Glide.with(holder.binding.image)
             .load( article.urlToImage )
             .into(holder.binding.image)
-
-        holder.itemView.setOnClickListener {
+        holder.binding.bookmark.setImageResource(R.drawable.ic_bookmark_add)
+        holder.binding.bookmark.setOnClickListener {
             listener?.onClick( article )
         }
     }
