@@ -4,28 +4,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.lazday.news.R
+import com.lazday.news.databinding.FragmentBookmarkBinding
+import com.lazday.news.retrofit.NewsModel
+import com.lazday.news.room.BookmarkModel
+import com.lazday.news.ui.news.BookmarkAdapter
+import com.lazday.news.ui.news.NewsAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.dsl.module
+
+val bookmarkModule = module {
+    factory { BookmarkFragment() }
+}
 
 class BookmarkFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private val viewModel: BookmarkViewModel by viewModel()
+    private lateinit var binding: FragmentBookmarkBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-                ViewModelProvider(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_bookmark, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        binding = FragmentBookmarkBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = BookmarkAdapter(arrayListOf(), object : BookmarkAdapter.OnAdapterListener {
+            override fun onClick(bookmark: BookmarkModel) {
+                viewModel.remove( bookmark )
+            }
         })
-        return root
+        binding.listBookmark.adapter = adapter
+
+        viewModel.bookmarks.observe(viewLifecycleOwner, {
+            adapter.add( it )
+        })
     }
 }

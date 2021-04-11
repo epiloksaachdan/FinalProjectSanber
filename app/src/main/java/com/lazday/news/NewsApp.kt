@@ -6,6 +6,8 @@ import com.lazday.news.ui.news.newsViewModel
 import com.lazday.news.retrofit.networkModule
 import com.lazday.news.retrofit.repositoryModule
 import com.lazday.news.room.databaseModule
+import com.lazday.news.ui.bookmark.bookmarkModule
+import com.lazday.news.ui.bookmark.bookmarkViewModel
 import com.lazday.news.ui.home.homeModule
 import com.lazday.news.ui.home.homeViewModel
 import org.koin.android.ext.koin.androidContext
@@ -25,6 +27,8 @@ class NewsApp : Application() {
                 repositoryModule,
                 homeModule,
                 homeViewModel,
+                bookmarkModule,
+                bookmarkViewModel,
                 newsModule,
                 newsViewModel
             )

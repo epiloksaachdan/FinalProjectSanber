@@ -21,7 +21,7 @@ class NewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val adapter = NewsAdapter(arrayListOf())
+        val adapter = NewsAdapter(arrayListOf(), null)
         binding.listNews.adapter = adapter
 
         viewModel.news.observe(this, {

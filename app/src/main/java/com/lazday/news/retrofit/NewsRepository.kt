@@ -10,9 +10,16 @@ val repositoryModule = module {
 
 class NewsRepository(
     private val api: NewsApi,
-    private val bookmark: BookmarkDao,
+    val bookmark: BookmarkDao,
 ) {
     suspend fun topHeadlines() = api.topHeadlines()
-    suspend fun add(bookmarkModel: BookmarkModel) = bookmark.add(bookmarkModel)
-    fun bookmarks() = bookmark.findAll()
+    suspend fun add(article: NewsModel.Article) {
+        bookmark.add(
+            BookmarkModel(
+                publishedAt = article.publishedAt,
+                urlImage = article.urlToImage,
+                title = article.title,
+            )
+        )
+    }
 }

@@ -18,7 +18,7 @@ class NewsViewModel(
 ) : ViewModel() {
 
     val news by lazy { MutableLiveData<NewsModel>() }
-    val bookmarks = repository.bookmarks()
+    val bookmarks = repository.bookmark.findAll()
 
     init {
         viewModelScope.launch {
@@ -28,7 +28,7 @@ class NewsViewModel(
 
     fun add (newsSaveModel: BookmarkModel) {
         viewModelScope.launch {
-            repository.add(newsSaveModel)
+            repository.bookmark.add(newsSaveModel)
         }
     }
 
