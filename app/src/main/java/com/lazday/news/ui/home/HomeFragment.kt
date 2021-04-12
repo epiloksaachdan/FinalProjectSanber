@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lazday.news.databinding.FragmentHomeBinding
-import com.lazday.news.retrofit.NewsModel
-import com.lazday.news.ui.news.NewsAdapter
+import com.lazday.news.source.network.ArticleModel
+import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -34,18 +34,25 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
-            override fun onClick(news: NewsModel.Article) {
-                viewModel.add(news)
-                Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show()
+            override fun onClick(news: ArticleModel) {
+                viewModel.bookmark(news)
             }
         })
         binding.listNews.adapter = adapter
 
-        viewModel.news.observe( viewLifecycleOwner, {
-//            it.articles.forEach {  article ->
-//                Log.e("HomeFragment", "fetch: ${article.title}")
-//            }
-            adapter.add( it.articles )
+        viewModel.message.observe(viewLifecycleOwner, {
+            it?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
         })
+
+        viewModel.articles.observe( viewLifecycleOwner, {
+            adapter.add( it )
+            binding.swipe.isRefreshing = false
+        })
+
+        binding.swipe.setOnRefreshListener {
+            viewModel.fetch()
+        }
     }
 }

@@ -3,6 +3,7 @@
     package="com.lazday.news">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".NewsApp"
@@ -14,7 +15,7 @@
         android:theme="@style/Theme.News">
         <activity android:name="com.lazday.news.ui.news.NewsActivity"></activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.home.HomeActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

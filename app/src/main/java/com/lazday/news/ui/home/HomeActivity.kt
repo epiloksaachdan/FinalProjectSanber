@@ -1,6 +1,5 @@
-package com.lazday.news.ui
+package com.lazday.news.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -9,14 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.lazday.news.R
-import com.lazday.news.ui.news.NewsActivity
 
-class MainActivity : AppCompatActivity() {
-
-//    override fun onStart() {
-//        super.onStart()
-//        startActivity(Intent(this, NewsActivity::class.java))
-//    }
+class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

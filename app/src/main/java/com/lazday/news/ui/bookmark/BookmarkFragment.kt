@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lazday.news.databinding.FragmentBookmarkBinding
-import com.lazday.news.retrofit.NewsModel
-import com.lazday.news.room.BookmarkModel
-import com.lazday.news.ui.news.BookmarkAdapter
-import com.lazday.news.ui.news.NewsAdapter
+import com.lazday.news.source.network.ArticleModel
+import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -34,14 +32,14 @@ class BookmarkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = BookmarkAdapter(arrayListOf(), object : BookmarkAdapter.OnAdapterListener {
-            override fun onClick(bookmark: BookmarkModel) {
-                viewModel.remove( bookmark )
+        val adapter = NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
+            override fun onClick(article: ArticleModel) {
+                viewModel.bookmark( article )
             }
         })
         binding.listBookmark.adapter = adapter
 
-        viewModel.bookmarks.observe(viewLifecycleOwner, {
+        viewModel.articles.observe(viewLifecycleOwner, {
             adapter.add( it )
         })
     }

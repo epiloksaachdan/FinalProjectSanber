@@ -1,11 +1,10 @@
 package com.lazday.news
 
 import android.app.Application
-import com.lazday.news.ui.news.newsModule
-import com.lazday.news.ui.news.newsViewModel
-import com.lazday.news.retrofit.networkModule
-import com.lazday.news.retrofit.repositoryModule
-import com.lazday.news.room.databaseModule
+import androidx.appcompat.app.AppCompatDelegate
+import com.lazday.news.source.repositoryModule
+import com.lazday.news.source.network.networkModule
+import com.lazday.news.source.room.databaseModule
 import com.lazday.news.ui.bookmark.bookmarkModule
 import com.lazday.news.ui.bookmark.bookmarkViewModel
 import com.lazday.news.ui.home.homeModule
@@ -18,6 +17,7 @@ class NewsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         startKoin {
             androidLogger()
             androidContext(this@NewsApp)
@@ -28,9 +28,7 @@ class NewsApp : Application() {
                 homeModule,
                 homeViewModel,
                 bookmarkModule,
-                bookmarkViewModel,
-                newsModule,
-                newsViewModel
+                bookmarkViewModel
             )
         }
     }

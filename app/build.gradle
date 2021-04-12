@@ -78,5 +78,6 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 }
