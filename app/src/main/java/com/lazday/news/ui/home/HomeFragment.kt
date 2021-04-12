@@ -1,13 +1,15 @@
 package com.lazday.news.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lazday.news.databinding.FragmentHomeBinding
-import com.lazday.news.source.network.ArticleModel
+import com.lazday.news.source.news.ArticleModel
+import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -32,7 +34,24 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = HomeAdapter(arrayListOf(), object : HomeAdapter.OnAdapterListener {
+        binding.listNews.adapter = adapter
+        viewModel.articles.observe( viewLifecycleOwner, {
+            adapter.add( it )
+        })
+
+        viewModel.loading.observe(viewLifecycleOwner, binding.swipe::setRefreshing)
+        viewModel.message.observe(viewLifecycleOwner, {
+            it?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                viewModel.loading.postValue(false)
+            }
+        })
+
+        binding.swipe.setOnRefreshListener { viewModel.fetch() }
+    }
+
+    private val adapter by lazy {
+        NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
             override fun onBookmark(news: ArticleModel) {
                 viewModel.bookmark(news)
             }
@@ -41,21 +60,5 @@ class HomeFragment : Fragment() {
 //                    .show( requireActivity().supportFragmentManager, "detail" )
             }
         })
-        binding.listNews.adapter = adapter
-
-        viewModel.message.observe(viewLifecycleOwner, {
-            it?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
-        })
-
-        viewModel.articles.observe( viewLifecycleOwner, {
-            adapter.add( it )
-            binding.swipe.isRefreshing = false
-        })
-
-        binding.swipe.setOnRefreshListener {
-            viewModel.fetch()
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.lazday.news.ui.home
+package com.lazday.news.util
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,13 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lazday.news.R
 import com.lazday.news.databinding.AdapterNewsBinding
-import com.lazday.news.source.network.ArticleModel
-import com.lazday.news.util.dateFormat
+import com.lazday.news.source.news.ArticleModel
 
-class HomeAdapter(
+class NewsAdapter(
     var articles: ArrayList<ArticleModel>,
     var listener: OnAdapterListener?,
-) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         AdapterNewsBinding.inflate(

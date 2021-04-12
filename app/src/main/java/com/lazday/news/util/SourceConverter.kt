@@ -3,7 +3,7 @@ package com.lazday.news.util
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.lazday.news.source.network.SourceModel
+import com.lazday.news.source.news.SourceModel
 
 object SourceConverter {
 

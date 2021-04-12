@@ -1,4 +1,4 @@
-package com.lazday.news.source.network
+package com.lazday.news.source.news
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -18,7 +18,7 @@ data class ArticleModel (
         @PrimaryKey(autoGenerate = false)
         val publishedAt: String,
         val content: String? = "",
-        var bookmark: Int? = 0,
+        var bookmark: Int = 0,
 )
 
 data class SourceModel (

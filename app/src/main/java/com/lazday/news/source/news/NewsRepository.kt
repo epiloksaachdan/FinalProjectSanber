@@ -1,6 +1,5 @@
 package com.lazday.news.source.news
 
-import com.lazday.news.source.network.ArticleModel
 import com.lazday.news.source.network.ApiClient
 import org.koin.dsl.module
 

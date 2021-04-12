@@ -2,7 +2,6 @@ package com.lazday.news.source.news
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.lazday.news.source.network.ArticleModel
 
 @Dao
 interface NewsDao {

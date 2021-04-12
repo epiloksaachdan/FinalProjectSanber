@@ -1,5 +1,6 @@
 package com.lazday.news.source.network
 
+import com.lazday.news.source.news.NewsModel
 import retrofit2.http.GET
 
 interface ApiClient {
