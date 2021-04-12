@@ -32,11 +32,7 @@ class BookmarkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
-            override fun onClick(article: ArticleModel) {
-                viewModel.bookmark( article )
-            }
-        })
+        val adapter = NewsAdapter(arrayListOf(), null )
         binding.listBookmark.adapter = adapter
 
         viewModel.articles.observe(viewLifecycleOwner, {

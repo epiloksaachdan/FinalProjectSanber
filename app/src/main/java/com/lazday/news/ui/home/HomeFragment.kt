@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lazday.news.databinding.FragmentHomeBinding
 import com.lazday.news.source.network.ArticleModel
+import com.lazday.news.ui.detail.DetailFragment
 import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -34,8 +35,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
-            override fun onClick(news: ArticleModel) {
+            override fun onBookmark(news: ArticleModel) {
                 viewModel.bookmark(news)
+            }
+
+            override fun onDetail(news: ArticleModel) {
+                DetailFragment()
+                    .show( requireActivity().supportFragmentManager, "detail" )
             }
         })
         binding.listNews.adapter = adapter

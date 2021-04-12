@@ -23,6 +23,7 @@ class NewsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = articles[position]
+
         holder.binding.title.text = article.title
         holder.binding.publishedAt.text = dateFormat( article.publishedAt )
         Glide.with(holder.binding.image)
@@ -32,8 +33,12 @@ class NewsAdapter(
             if (article.bookmark == 1) setImageResource(R.drawable.ic_bookmark_remove)
             else setImageResource(R.drawable.ic_bookmark_add)
         }
+
+        holder.binding.image.setOnClickListener {
+            listener?.onDetail( article )
+        }
         holder.binding.bookmark.setOnClickListener {
-            listener?.onClick( article )
+            listener?.onBookmark( article )
         }
     }
 
@@ -46,6 +51,7 @@ class NewsAdapter(
     }
 
     interface OnAdapterListener {
-        fun onClick(news: ArticleModel)
+        fun onBookmark(news: ArticleModel)
+        fun onDetail(news: ArticleModel)
     }
 }
