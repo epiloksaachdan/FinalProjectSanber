@@ -1,4 +1,4 @@
-package com.lazday.news.util
+package com.lazday.news.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,11 +7,12 @@ import com.bumptech.glide.Glide
 import com.lazday.news.R
 import com.lazday.news.databinding.AdapterNewsBinding
 import com.lazday.news.source.network.ArticleModel
+import com.lazday.news.util.dateFormat
 
-class NewsAdapter(
+class HomeAdapter(
     var articles: ArrayList<ArticleModel>,
     var listener: OnAdapterListener?,
-) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         AdapterNewsBinding.inflate(
@@ -30,7 +31,7 @@ class NewsAdapter(
             .load( article.urlToImage )
             .into(holder.binding.image)
         holder.binding.bookmark.apply {
-            if (article.bookmark == 1) setImageResource(R.drawable.ic_bookmark_remove)
+            if (article.bookmark == 1) setImageResource(R.drawable.ic_bookmark_added)
             else setImageResource(R.drawable.ic_bookmark_add)
         }
 
