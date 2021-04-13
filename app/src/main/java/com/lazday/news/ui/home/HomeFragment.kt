@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.lazday.news.databinding.FragmentHomeBinding
 import com.lazday.news.source.news.ArticleModel
+import com.lazday.news.ui.detail.DetailFragment
 import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -56,8 +59,15 @@ class HomeFragment : Fragment() {
                 viewModel.bookmark(news)
             }
             override fun onDetail(news: ArticleModel) {
-//                DetailFragment()
-//                    .show( requireActivity().supportFragmentManager, "detail" )
+//                val detail: DetailFragment = DetailFragment()
+//                val bundle = Bundle()
+//                detail.show( requireActivity().supportFragmentManager, "detail" )
+
+//                detail.arguments = bundle.putString("", "Hei")
+                DetailFragment().apply {
+                    arguments = bundleOf("article" to news)
+                }.show(requireActivity().supportFragmentManager, "detail")
+
             }
         })
     }

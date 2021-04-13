@@ -17,4 +17,7 @@ interface NewsDao {
 
     @Query("SELECT * FROM tableArticle WHERE bookmark=1 ")
     fun newsBookmark(): LiveData<List<ArticleModel>>
+
+    @Query("SELECT * FROM tableArticle WHERE publishedAt=:publish")
+    fun find(publish: String): LiveData<ArticleModel>
 }

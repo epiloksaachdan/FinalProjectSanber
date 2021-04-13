@@ -2,6 +2,7 @@ package com.lazday.news.source.news
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 data class NewsModel (
     val articles: List<ArticleModel>
@@ -19,7 +20,7 @@ data class ArticleModel (
         val publishedAt: String,
         val content: String? = "",
         var bookmark: Int = 0,
-)
+) : Serializable
 
 data class SourceModel (
         val id: String? = "",
