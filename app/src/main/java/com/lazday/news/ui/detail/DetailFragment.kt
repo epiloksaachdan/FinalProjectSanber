@@ -1,14 +1,12 @@
 package com.lazday.news.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lazday.news.R
 import com.lazday.news.databinding.FragmentDetailBinding
-import com.lazday.news.source.news.ArticleModel
 import com.lazday.news.util.dateFormat
 import com.lazday.news.util.loadImage
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +20,7 @@ class DetailFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentDetailBinding
     private val viewModel: DetailViewModel by viewModel()
+    private val publishAt by lazy { requireArguments()["published_at"].toString() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +33,7 @@ class DetailFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val article = requireArguments()["article"] as ArticleModel
-        Log.e("DetailFragment", article.toString())
-
-        viewModel.publishAt = article.publishedAt
+        viewModel.publishAt = publishAt
         viewModel.find()
 
         viewModel.article.observe(viewLifecycleOwner, {

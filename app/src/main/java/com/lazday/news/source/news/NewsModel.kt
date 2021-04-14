@@ -20,7 +20,7 @@ data class ArticleModel (
         val publishedAt: String,
         val content: String? = "",
         var bookmark: Int = 0,
-) : Serializable
+)
 
 data class SourceModel (
         val id: String? = "",

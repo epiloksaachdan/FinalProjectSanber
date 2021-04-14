@@ -46,7 +46,7 @@ class BookmarkFragment : Fragment() {
             }
             override fun onDetail(article: ArticleModel) {
                 DetailFragment().apply {
-                    arguments = bundleOf("article" to article)
+                    arguments = bundleOf("published_at" to article.publishedAt)
                 }.show(requireActivity().supportFragmentManager, "detail")
             }
         })
