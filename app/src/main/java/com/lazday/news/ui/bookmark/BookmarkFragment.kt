@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.lazday.news.databinding.FragmentBookmarkBinding
 import com.lazday.news.source.news.ArticleModel
+import com.lazday.news.ui.detail.DetailFragment
 import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -39,10 +41,14 @@ class BookmarkFragment : Fragment() {
 
     private val adapter by lazy {
         NewsAdapter(arrayListOf(), object: NewsAdapter.OnAdapterListener {
-            override fun onBookmark(news: ArticleModel) {
-                viewModel.bookmark(news)
+            override fun onBookmark(article: ArticleModel) {
+                viewModel.bookmark(article)
             }
-            override fun onDetail(news: ArticleModel) { }
+            override fun onDetail(article: ArticleModel) {
+                DetailFragment().apply {
+                    arguments = bundleOf("article" to article)
+                }.show(requireActivity().supportFragmentManager, "detail")
+            }
         })
     }
 }

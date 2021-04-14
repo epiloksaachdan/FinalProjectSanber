@@ -55,17 +55,12 @@ class HomeFragment : Fragment() {
 
     private val adapter by lazy {
         NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
-            override fun onBookmark(news: ArticleModel) {
-                viewModel.bookmark(news)
+            override fun onBookmark(article: ArticleModel) {
+                viewModel.bookmark(article)
             }
-            override fun onDetail(news: ArticleModel) {
-//                val detail: DetailFragment = DetailFragment()
-//                val bundle = Bundle()
-//                detail.show( requireActivity().supportFragmentManager, "detail" )
-
-//                detail.arguments = bundle.putString("", "Hei")
+            override fun onDetail(article: ArticleModel) {
                 DetailFragment().apply {
-                    arguments = bundleOf("article" to news)
+                    arguments = bundleOf("article" to article)
                 }.show(requireActivity().supportFragmentManager, "detail")
 
             }

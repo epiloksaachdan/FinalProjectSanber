@@ -26,19 +26,10 @@ class NewsAdapter(
 
         holder.binding.title.text = article.title
         holder.binding.publishedAt.text = dateFormat( article.publishedAt )
-        Glide.with(holder.binding.image)
-            .load( article.urlToImage )
-            .into(holder.binding.image)
-        holder.binding.bookmark.apply {
-            if (article.bookmark == 1) setImageResource(R.drawable.ic_bookmark_added)
-            else setImageResource(R.drawable.ic_bookmark_add)
-        }
+        loadImage(holder.binding.image, article.urlToImage)
 
-        holder.binding.image.setOnClickListener {
+        holder.itemView.setOnClickListener {
             listener?.onDetail( article )
-        }
-        holder.binding.bookmark.setOnClickListener {
-            listener?.onBookmark( article )
         }
     }
 
@@ -51,7 +42,7 @@ class NewsAdapter(
     }
 
     interface OnAdapterListener {
-        fun onBookmark(news: ArticleModel)
-        fun onDetail(news: ArticleModel)
+        fun onBookmark(article: ArticleModel)
+        fun onDetail(article: ArticleModel)
     }
 }
