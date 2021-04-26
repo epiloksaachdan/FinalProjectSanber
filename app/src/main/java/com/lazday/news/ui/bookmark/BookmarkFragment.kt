@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.lazday.news.databinding.CustomToolbarBinding
 import com.lazday.news.databinding.FragmentBookmarkBinding
 import com.lazday.news.source.news.ArticleModel
 import com.lazday.news.ui.detail.DetailFragment
@@ -21,6 +22,7 @@ class BookmarkFragment : Fragment() {
 
     private val viewModel: BookmarkViewModel by viewModel()
     private lateinit var binding: FragmentBookmarkBinding
+    private lateinit var toolbar: CustomToolbarBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -28,11 +30,17 @@ class BookmarkFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBookmarkBinding.inflate(inflater, container, false)
+        toolbar = binding.toolbar
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.titleBar.observe( viewLifecycleOwner, {
+            toolbar.title.text = it
+        })
+
         binding.listBookmark.adapter = adapter
         viewModel.articles.observe(viewLifecycleOwner, {
             adapter.add( it )

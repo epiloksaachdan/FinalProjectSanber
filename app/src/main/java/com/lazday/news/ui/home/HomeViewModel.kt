@@ -45,4 +45,15 @@ class HomeViewModel(
         }
     }
 
+    val title = "News"
+    val categories = arrayListOf<String>(
+            "business",
+            "entertainment",
+            "general",
+            "health",
+            "science",
+            "sports",
+            "technology"
+    )
+
 }

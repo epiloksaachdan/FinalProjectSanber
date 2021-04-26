@@ -1,17 +1,17 @@
 package com.lazday.news.ui.home
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import com.lazday.news.R
+import com.lazday.news.databinding.CustomToolbarBinding
 import com.lazday.news.databinding.FragmentHomeBinding
 import com.lazday.news.source.news.ArticleModel
 import com.lazday.news.ui.detail.DetailFragment
+import com.lazday.news.util.CategoryAdapter
 import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -24,6 +24,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var toolbar: CustomToolbarBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -31,15 +32,34 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        toolbar = binding.toolbar
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.listNews.adapter = adapter
+        toolbar.title.text = viewModel.title
+        binding.listCategory.adapter = categoryAdapter
+
+        binding.toolbar.bar.inflateMenu(R.menu.menu_search)
+        val menu = binding.toolbar.bar.menu
+        val search = menu.findItem(R.id.appSearchBar)
+        val searchView = search.actionView as SearchView
+        searchView.queryHint = "Search"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+//                adapter.filter.filter(newText)
+                return true
+            }
+        })
+
+        binding.listNews.adapter = newsAdapter
         viewModel.articles.observe( viewLifecycleOwner, {
-            adapter.add( it )
+            newsAdapter.add( it )
         })
 
         viewModel.loading.observe(viewLifecycleOwner, binding.swipe::setRefreshing)
@@ -53,7 +73,7 @@ class HomeFragment : Fragment() {
         binding.swipe.setOnRefreshListener { viewModel.fetch() }
     }
 
-    private val adapter by lazy {
+    private val newsAdapter by lazy {
         NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
             override fun onBookmark(article: ArticleModel) {
                 viewModel.bookmark(article)
@@ -66,4 +86,29 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+    private val categoryAdapter by lazy {
+        CategoryAdapter(viewModel.categories, object : CategoryAdapter.OnAdapterListener {
+            override fun onClick(category: String) {
+
+            }
+        })
+    }
+
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.menu_search, menu)
+//        super.onCreateOptionsMenu(menu, inflater)
+//        val search = menu.findItem(R.id.appSearchBar)
+//        val searchView = search.actionView as SearchView
+//        searchView.queryHint = "Search"
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//            override fun onQueryTextChange(newText: String?): Boolean {
+////                adapter.filter.filter(newText)
+//                return true
+//            }
+//        })
+//    }
 }
