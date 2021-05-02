@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.lazday.news.source.network.networkModule
 import com.lazday.news.source.news.repositoryModule
-import com.lazday.news.source.room.databaseModule
+import com.lazday.news.source.persistence.databaseModule
 import com.lazday.news.ui.bookmark.bookmarkModule
 import com.lazday.news.ui.bookmark.bookmarkViewModel
 import com.lazday.news.ui.detail.detailModule

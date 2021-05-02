@@ -1,4 +1,4 @@
-package com.lazday.news.source.room
+package com.lazday.news.source.persistence
 
 import android.app.Application
 import androidx.room.Room
