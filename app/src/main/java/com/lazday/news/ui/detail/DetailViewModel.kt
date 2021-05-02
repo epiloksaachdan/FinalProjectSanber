@@ -16,19 +16,19 @@ class DetailViewModel(
         private val repository: NewsRepository
 ) : ViewModel() {
 
-    var publishAt = ""
-    val article by lazy { MutableLiveData<ArticleModel>() }
-
-    fun find(){
-        viewModelScope.launch {
-            article.value = repository.db.find(publishAt)
-        }
-    }
+    val isBookmark by lazy { MutableLiveData<Int>(0) }
 
     fun bookmark (articleModel: ArticleModel) {
         viewModelScope.launch {
-            repository.bookmark(articleModel)
-            find()
+            if (isBookmark.value == 0) repository.save(articleModel)
+            else repository.remove(articleModel)
+            find( articleModel )
+        }
+    }
+
+    fun find(articleModel: ArticleModel){
+        viewModelScope.launch {
+            isBookmark.value = repository.find( articleModel )
         }
     }
 }

@@ -10,7 +10,7 @@ import com.lazday.news.source.news.ArticleModel
 
 class NewsAdapter(
     var articles: ArrayList<ArticleModel>,
-    var listener: OnAdapterListener?,
+    var listener: OnAdapterListener,
 ) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -29,7 +29,7 @@ class NewsAdapter(
         loadImage(holder.binding.image, article.urlToImage)
 
         holder.itemView.setOnClickListener {
-            listener?.onDetail( article )
+            listener.onClick( article )
         }
     }
 
@@ -42,7 +42,6 @@ class NewsAdapter(
     }
 
     interface OnAdapterListener {
-        fun onBookmark(article: ArticleModel)
-        fun onDetail(article: ArticleModel)
+        fun onClick(article: ArticleModel)
     }
 }

@@ -7,17 +7,14 @@ import androidx.room.*
 interface NewsDao {
 
     @Query("SELECT * FROM tableArticle")
-    fun newsAll(): LiveData<List<ArticleModel>>
+    fun findAll(): LiveData<List<ArticleModel>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun saveAll(listArticle: List<ArticleModel>)
+    suspend fun save(articleModel: ArticleModel)
 
-    @Update
-    suspend fun bookmark(article: ArticleModel)
+    @Query("SELECT COUNT(*) FROM tableArticle WHERE publishedAt=:publish")
+    suspend fun find(publish: String): Int
 
-    @Query("SELECT * FROM tableArticle WHERE bookmark=1 ")
-    fun newsBookmark(): LiveData<List<ArticleModel>>
-
-    @Query("SELECT * FROM tableArticle WHERE publishedAt=:publish")
-    suspend fun find(publish: String): ArticleModel
+    @Delete
+    suspend fun remove(articleModel: ArticleModel)
 }

@@ -8,7 +8,7 @@ import com.lazday.news.R
 import com.lazday.news.databinding.AdapterCategoryBinding
 
 class CategoryAdapter(
-        var categories: List<String>,
+        var categories: List<CategoryModel>,
         var listener: OnAdapterListener,
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
@@ -26,7 +26,7 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val category = categories[position]
-        holder.binding.category.text = category
+        holder.binding.category.text = category.name
         items.add( holder.binding.category )
         holder.itemView.setOnClickListener {
             listener.onClick( category )
@@ -35,7 +35,7 @@ class CategoryAdapter(
     }
 
     interface OnAdapterListener {
-        fun onClick(category: String)
+        fun onClick(category: CategoryModel)
     }
 
     private fun setColor(textView: TextView){

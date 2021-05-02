@@ -23,7 +23,6 @@ class HomeActivity : AppCompatActivity() {
 //            R.id.navigation_home, R.id.navigation_bookmark
 //        ))
 //        setupActionBarWithNavController(navController, appBarConfiguration)
-        supportActionBar!!.hide()
         navView.setupWithNavController(navController)
     }
 

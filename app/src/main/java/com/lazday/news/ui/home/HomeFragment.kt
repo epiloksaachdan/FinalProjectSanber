@@ -1,17 +1,18 @@
 package com.lazday.news.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.lazday.news.R
 import com.lazday.news.databinding.CustomToolbarBinding
 import com.lazday.news.databinding.FragmentHomeBinding
 import com.lazday.news.source.news.ArticleModel
-import com.lazday.news.ui.detail.DetailFragment
+import com.lazday.news.ui.detail.DetailActivity
 import com.lazday.news.util.CategoryAdapter
+import com.lazday.news.util.CategoryModel
 import com.lazday.news.util.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -42,9 +43,9 @@ class HomeFragment : Fragment() {
         toolbar.title.text = viewModel.title
         binding.listCategory.adapter = categoryAdapter
 
-        binding.toolbar.bar.inflateMenu(R.menu.menu_search)
-        val menu = binding.toolbar.bar.menu
-        val search = menu.findItem(R.id.appSearchBar)
+        binding.toolbar.view.inflateMenu(R.menu.menu_search)
+        val menu = binding.toolbar.view.menu
+        val search = menu.findItem(R.id.action_search)
         val searchView = search.actionView as SearchView
         searchView.queryHint = "Search"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -52,14 +53,14 @@ class HomeFragment : Fragment() {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-//                adapter.filter.filter(newText)
+                newText?.let { viewModel.query = it }
                 return true
             }
         })
 
         binding.listNews.adapter = newsAdapter
         viewModel.articles.observe( viewLifecycleOwner, {
-            newsAdapter.add( it )
+            newsAdapter.add( it.articles )
         })
 
         viewModel.loading.observe(viewLifecycleOwner, binding.swipe::setRefreshing)
@@ -70,45 +71,30 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.swipe.setOnRefreshListener { viewModel.fetch() }
+        binding.swipe.setOnRefreshListener { viewModel.fetch("") }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetch("")
     }
 
     private val newsAdapter by lazy {
         NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener {
-            override fun onBookmark(article: ArticleModel) {
-                viewModel.bookmark(article)
-            }
-            override fun onDetail(article: ArticleModel) {
-                DetailFragment().apply {
-                    arguments = bundleOf("published_at" to article.publishedAt)
-                }.show(requireActivity().supportFragmentManager, "detail")
-
+            override fun onClick(article: ArticleModel) {
+                startActivity(
+                    Intent(requireActivity(), DetailActivity::class.java)
+                        .putExtra("detail", article)
+                )
             }
         })
     }
 
     private val categoryAdapter by lazy {
         CategoryAdapter(viewModel.categories, object : CategoryAdapter.OnAdapterListener {
-            override fun onClick(category: String) {
-
+            override fun onClick(category: CategoryModel) {
+                viewModel.fetch(category.id)
             }
         })
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.menu_search, menu)
-//        super.onCreateOptionsMenu(menu, inflater)
-//        val search = menu.findItem(R.id.appSearchBar)
-//        val searchView = search.actionView as SearchView
-//        searchView.queryHint = "Search"
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//            override fun onQueryTextChange(newText: String?): Boolean {
-////                adapter.filter.filter(newText)
-//                return true
-//            }
-//        })
-//    }
 }
