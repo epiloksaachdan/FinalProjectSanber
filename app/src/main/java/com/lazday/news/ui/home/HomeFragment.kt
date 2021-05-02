@@ -50,6 +50,7 @@ class HomeFragment : Fragment() {
         searchView.queryHint = "Search"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.fetch()
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -60,7 +61,14 @@ class HomeFragment : Fragment() {
 
         binding.listNews.adapter = newsAdapter
         viewModel.articles.observe( viewLifecycleOwner, {
-            newsAdapter.add( it.articles )
+            if (it.articles.isEmpty()) {
+                binding.textAlert.visibility = View.VISIBLE
+                binding.listNews.visibility = View.GONE
+            } else {
+                binding.textAlert.visibility = View.GONE
+                binding.listNews.visibility = View.VISIBLE
+                newsAdapter.add( it.articles )
+            }
         })
 
         viewModel.loading.observe(viewLifecycleOwner, {
@@ -76,7 +84,7 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.fetch("")
+        viewModel.fetch()
     }
 
     private val newsAdapter by lazy {
@@ -93,7 +101,8 @@ class HomeFragment : Fragment() {
     private val categoryAdapter by lazy {
         CategoryAdapter(viewModel.categories, object : CategoryAdapter.OnAdapterListener {
             override fun onClick(category: CategoryModel) {
-                viewModel.fetch(category.id)
+                viewModel.category = category.id
+                viewModel.fetch()
             }
         })
     }

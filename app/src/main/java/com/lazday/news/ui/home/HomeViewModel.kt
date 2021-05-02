@@ -19,31 +19,29 @@ class HomeViewModel(
     private val repository: NewsRepository
 ) : ViewModel() {
 
+    val title = "Berita"
     val message by lazy { MutableLiveData<String?>() }
     val loading by lazy { MutableLiveData<Boolean>() }
+    val articles by lazy { MutableLiveData<NewsModel>() }
 
     init {
         message.value = null
     }
 
-    val articles by lazy { MutableLiveData<NewsModel>() }
-    fun fetch(
-            category: String,
-    ) {
+    var query = ""
+    var category = ""
+    fun fetch() {
         loading.value = true
         viewModelScope.launch {
             try {
                 articles.value = repository.search( category, query )
                 loading.value = false
             } catch (e: Exception ) {
-                message.value = "Terjadi kesalahan"
-//                message.value = e.localizedMessage
+                message.value = "Terjadi kesalahan" // e.localizedMessage
             }
         }
     }
 
-    val title = "Berita"
-    var query = ""
     val categories = listOf<CategoryModel>(
             CategoryModel("", "Semua"),
             CategoryModel("business", "Bisnis"),
