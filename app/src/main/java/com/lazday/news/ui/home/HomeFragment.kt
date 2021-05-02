@@ -63,15 +63,15 @@ class HomeFragment : Fragment() {
             newsAdapter.add( it.articles )
         })
 
-        viewModel.loading.observe(viewLifecycleOwner, binding.swipe::setRefreshing)
+        viewModel.loading.observe(viewLifecycleOwner, {
+            binding.progress.visibility = if (it) View.VISIBLE else View.GONE
+        })
         viewModel.message.observe(viewLifecycleOwner, {
             it?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 viewModel.loading.postValue(false)
             }
         })
-
-        binding.swipe.setOnRefreshListener { viewModel.fetch("") }
     }
 
     override fun onStart() {
