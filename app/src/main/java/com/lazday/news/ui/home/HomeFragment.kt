@@ -62,9 +62,11 @@ class HomeFragment : Fragment() {
         binding.listNews.adapter = newsAdapter
         viewModel.articles.observe( viewLifecycleOwner, {
             if (it.articles.isEmpty()) {
+                binding.imageAlert.visibility = View.VISIBLE
                 binding.textAlert.visibility = View.VISIBLE
                 binding.listNews.visibility = View.GONE
             } else {
+                binding.imageAlert.visibility = View.GONE
                 binding.textAlert.visibility = View.GONE
                 binding.listNews.visibility = View.VISIBLE
                 newsAdapter.add( it.articles )

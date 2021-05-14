@@ -11,21 +11,38 @@
         layout="@layout/custom_toolbar"
         />
 
+    <ImageView
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/image_alert"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/img_bookmark"
+        app:tint="@color/red_200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/text_alert"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
     <TextView
         android:visibility="gone"
         tools:visibility="visible"
         android:id="@+id/text_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data tidak tersedia"
-        android:textSize="24sp"
+        android:layout_marginTop="20dp"
+        android:text="Belum ada berita disimpan"
+        android:textSize="18sp"
+        android:textColor="@color/red_200"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/list_bookmark"
+        app:layout_constraintTop_toBottomOf="@+id/image_alert"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
+        tools:visibility="gone"
         android:id="@+id/list_bookmark"
         android:layout_width="0dp"
         android:layout_height="0dp"
