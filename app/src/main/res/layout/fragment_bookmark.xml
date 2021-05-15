@@ -17,7 +17,7 @@
         android:id="@+id/image_alert"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/img_bookmark"
+        android:src="@drawable/img_alert_bookmark"
         app:tint="@color/red_200"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

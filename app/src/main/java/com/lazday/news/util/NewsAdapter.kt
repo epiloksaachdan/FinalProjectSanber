@@ -13,27 +13,22 @@ class NewsAdapter(
     var listener: OnAdapterListener,
 ) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        AdapterNewsBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
+    class ViewHolder(val binding: AdapterNewsBinding): RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder (
+        AdapterNewsBinding.inflate( LayoutInflater.from(parent.context), parent, false )
     )
 
     override fun getItemCount() = articles.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = articles[position]
-
-        holder.binding.title.text = article.title
-        holder.binding.publishedAt.text = dateFormat( article.publishedAt )
-        loadImage(holder.binding.image, article.urlToImage)
-
+        holder.binding.article = article
+        holder.binding.format = FormatUtil()
         holder.itemView.setOnClickListener {
             listener.onClick( article )
         }
     }
-
-    class ViewHolder(val binding: AdapterNewsBinding): RecyclerView.ViewHolder(binding.root)
 
     fun add(data: List<ArticleModel>) {
         articles.clear()

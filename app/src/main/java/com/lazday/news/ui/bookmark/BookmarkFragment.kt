@@ -43,16 +43,10 @@ class BookmarkFragment : Fragment() {
 
         binding.listBookmark.adapter = adapter
         viewModel.articles.observe(viewLifecycleOwner, {
-            if (it.isEmpty()) {
-                binding.imageAlert.visibility = View.VISIBLE
-                binding.textAlert.visibility = View.VISIBLE
-                binding.listBookmark.visibility = View.GONE
-            } else {
-                binding.imageAlert.visibility = View.GONE
-                binding.textAlert.visibility = View.GONE
-                binding.listBookmark.visibility = View.VISIBLE
-                adapter.add( it )
-            }
+            binding.imageAlert.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            binding.textAlert.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            binding.listBookmark.visibility =if (it.isEmpty()) View.GONE else View.VISIBLE
+            adapter.add( it )
         })
     }
 
