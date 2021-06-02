@@ -31,8 +31,12 @@ class NewsAdapter(
     }
 
     fun add(data: List<ArticleModel>) {
-        articles.clear()
         articles.addAll(data)
+        notifyItemRangeInserted((articles.size - data.size), data.size)
+    }
+
+    fun clear() {
+        articles.clear()
         notifyDataSetChanged()
     }
 

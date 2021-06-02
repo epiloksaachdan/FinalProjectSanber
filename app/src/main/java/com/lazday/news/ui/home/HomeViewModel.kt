@@ -3,13 +3,14 @@ package com.lazday.news.ui.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lazday.news.source.news.ArticleModel
 import com.lazday.news.source.news.NewsModel
 import com.lazday.news.source.news.NewsRepository
 import com.lazday.news.util.CategoryModel
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
+import timber.log.Timber
 import java.lang.Exception
+import kotlin.math.ceil
 
 val homeViewModel = module {
     factory { HomeViewModel(get()) }
@@ -23,18 +24,27 @@ class HomeViewModel(
     val message by lazy { MutableLiveData<String?>() }
     val loading by lazy { MutableLiveData<Boolean>() }
     val articles by lazy { MutableLiveData<NewsModel>() }
+    val category by lazy { MutableLiveData<String>("") }
 
     init {
         message.value = null
+        fetch()
     }
 
     var query = ""
-    var category = ""
+    var page = 1
+    var total = 1
+
     fun fetch() {
+        Timber.e("fetchPage: $page")
         loading.value = true
         viewModelScope.launch {
             try {
-                articles.value = repository.search( category, query )
+                val response = repository.page( category.value, query, page )
+                articles.value = response
+                val totalResults: Double = response.totalResults / 20.0
+                total = ceil(totalResults).toInt()
+                page ++
                 loading.value = false
             } catch (e: Exception ) {
                 message.value = "Terjadi kesalahan" // e.localizedMessage

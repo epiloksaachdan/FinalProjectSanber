@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lazday.news.R
 import com.lazday.news.databinding.CustomToolbarBinding
 import com.lazday.news.databinding.FragmentHomeBinding
@@ -14,18 +18,26 @@ import com.lazday.news.ui.detail.DetailActivity
 import com.lazday.news.util.CategoryAdapter
 import com.lazday.news.util.CategoryModel
 import com.lazday.news.util.NewsAdapter
+import com.lazday.news.util.TestAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
+import timber.log.Timber
+import kotlin.math.ceil
 
 val homeModule = module {
     factory { HomeFragment() }
 }
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), TestAdapter.OnAdapterListener {
 
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var toolbar: CustomToolbarBinding
+
+//    private lateinit var testAdapter: TestAdapter
+    override fun onClick(article: ArticleModel) {
+
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -34,6 +46,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         toolbar = binding.toolbar
+//        testAdapter = TestAdapter(this)
         return binding.root
     }
 
@@ -60,7 +73,8 @@ class HomeFragment : Fragment() {
         })
 
         binding.listNews.adapter = newsAdapter
-        viewModel.articles.observe( viewLifecycleOwner, {
+//        binding.listNews.adapter = testAdapter
+        viewModel.articles.observe( viewLifecycleOwner, Observer {
             if (it.articles.isEmpty()) {
                 binding.imageAlert.visibility = View.VISIBLE
                 binding.textAlert.visibility = View.VISIBLE
@@ -69,24 +83,44 @@ class HomeFragment : Fragment() {
                 binding.imageAlert.visibility = View.GONE
                 binding.textAlert.visibility = View.GONE
                 binding.listNews.visibility = View.VISIBLE
+
                 newsAdapter.add( it.articles )
+//                testAdapter.submitList( it.articles )
+                Timber.e("articleSize: ${it.articles.size}")
             }
+        } )
+
+
+        viewModel.category.observe(viewLifecycleOwner, Observer {
+            Timber.e("category ${viewModel.category.value}")
+            newsAdapter.clear()
+            binding.scroll.scrollTo(0, 0)
+            viewModel.page = 1
+            viewModel.total = 1
+            viewModel.fetch()
         })
 
-        viewModel.loading.observe(viewLifecycleOwner, {
-            binding.progress.visibility = if (it) View.VISIBLE else View.GONE
+        binding.scroll.setOnScrollChangeListener {
+                v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if (scrollY == v?.getChildAt(0)!!.measuredHeight - v.measuredHeight) {
+                if (viewModel.page <= viewModel.total) viewModel.fetch()
+            }
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            if (viewModel.page == 1)
+                binding.progressTop.visibility = if (it) View.VISIBLE else View.GONE
+            else {
+                binding.progressBottom.visibility = if (it) View.VISIBLE else View.GONE
+                binding.progressTop.visibility = View.GONE
+            }
         })
-        viewModel.message.observe(viewLifecycleOwner, {
+        viewModel.message.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 viewModel.loading.postValue(false)
             }
         })
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.fetch()
     }
 
     private val newsAdapter by lazy {
@@ -103,8 +137,7 @@ class HomeFragment : Fragment() {
     private val categoryAdapter by lazy {
         CategoryAdapter(viewModel.categories, object : CategoryAdapter.OnAdapterListener {
             override fun onClick(category: CategoryModel) {
-                viewModel.category = category.id
-                viewModel.fetch()
+                viewModel.category.postValue(category.id)
             }
         })
     }

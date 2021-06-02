@@ -28,7 +28,8 @@
         />
 
     <ProgressBar
-        android:id="@+id/progress"
+        android:visibility="gone"
+        android:id="@+id/progress_top"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -48,7 +49,7 @@
         app:tint="@color/red_200"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_constraintTop_toBottomOf="@+id/progress_top"
         app:layout_constraintBottom_toTopOf="@+id/text_alert"
         app:layout_constraintVertical_chainStyle="packed"
         />
@@ -68,16 +69,35 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="HardcodedText" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        tools:visibility="gone"
-        android:id="@+id/list_news"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/adapter_news"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_alert"
+        app:layout_constraintBottom_toTopOf="@+id/progress_bottom"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            tools:visibility="visible"
+            android:id="@+id/list_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/adapter_news"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            />
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress_bottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

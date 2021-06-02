@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 data class NewsModel (
+    val totalResults: Int,
     val articles: List<ArticleModel>
 )
 

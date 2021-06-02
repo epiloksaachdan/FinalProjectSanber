@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.lifecycle.Observer
 import com.lazday.news.R
 import com.lazday.news.databinding.ActivityDetailBinding
 import com.lazday.news.databinding.CustomToolbarBinding
@@ -42,7 +43,7 @@ class DetailActivity : AppCompatActivity() {
             web.webViewClient = object : WebViewClient(){
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
-                    binding.progress.visibility = View.GONE
+                    binding.progressTop.visibility = View.GONE
                 }
             }
             val settings = binding.webView.settings
@@ -62,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
             viewModel.bookmark( detail )
             true
         }
-        viewModel.isBookmark.observe(this, {
+        viewModel.isBookmark.observe(this, Observer{
             if (it == 0) menuBookmark.setIcon(R.drawable.ic_add)
             else menuBookmark.setIcon(R.drawable.ic_check)
         })
