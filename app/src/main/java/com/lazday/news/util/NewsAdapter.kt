@@ -3,8 +3,6 @@ package com.lazday.news.util
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.lazday.news.R
 import com.lazday.news.databinding.AdapterNewsBinding
 import com.lazday.news.source.news.ArticleModel
 
