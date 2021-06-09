@@ -23,7 +23,8 @@ class HomeViewModel(
     val title = "Berita"
     val message by lazy { MutableLiveData<String?>() }
     val loading by lazy { MutableLiveData<Boolean>() }
-    val articles by lazy { MutableLiveData<NewsModel>() }
+    val loadMore by lazy { MutableLiveData<Boolean>() }
+    val news by lazy { MutableLiveData<NewsModel>() }
     val category by lazy { MutableLiveData<String>("") }
 
     init {
@@ -37,15 +38,16 @@ class HomeViewModel(
 
     fun fetch() {
         Timber.e("fetchPage: $page")
-        loading.value = true
+        if (page > 1) loadMore.value = true else loading.value = true
         viewModelScope.launch {
             try {
                 val response = repository.page( category.value, query, page )
-                articles.value = response
+                news.value = response
                 val totalResults: Double = response.totalResults / 20.0
                 total = ceil(totalResults).toInt()
                 page ++
                 loading.value = false
+                loadMore.value = false
             } catch (e: Exception ) {
                 message.value = "Terjadi kesalahan" // e.localizedMessage
             }

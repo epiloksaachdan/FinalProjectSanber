@@ -43,6 +43,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
         toolbar.title.text = viewModel.title
         binding.listCategory.adapter = categoryAdapter
 
@@ -63,20 +66,10 @@ class HomeFragment : Fragment() {
         })
 
         binding.listNews.adapter = newsAdapter
-        viewModel.articles.observe( viewLifecycleOwner, Observer {
-            if (it.articles.isEmpty()) {
-                binding.imageAlert.visibility = View.VISIBLE
-                binding.textAlert.visibility = View.VISIBLE
-                binding.listNews.visibility = View.GONE
-            } else {
-                binding.imageAlert.visibility = View.GONE
-                binding.textAlert.visibility = View.GONE
-                binding.listNews.visibility = View.VISIBLE
-
-                newsAdapter.add( it.articles )
-                Timber.e("articleSize: ${it.articles.size}")
-            }
-        } )
+        viewModel.news.observe( viewLifecycleOwner, {
+            newsAdapter.add( it.articles )
+            Timber.e("articleSize: ${it.articles.size}")
+        })
 
 
         viewModel.category.observe(viewLifecycleOwner, Observer {
@@ -89,20 +82,12 @@ class HomeFragment : Fragment() {
         })
 
         binding.scroll.setOnScrollChangeListener {
-                v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+                v: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if (scrollY == v?.getChildAt(0)!!.measuredHeight - v.measuredHeight) {
                 if (viewModel.page <= viewModel.total) viewModel.fetch()
             }
         }
 
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
-            if (viewModel.page == 1)
-                binding.progressTop.visibility = if (it) View.VISIBLE else View.GONE
-            else {
-                binding.progressBottom.visibility = if (it) View.VISIBLE else View.GONE
-                binding.progressTop.visibility = View.GONE
-            }
-        })
         viewModel.message.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
