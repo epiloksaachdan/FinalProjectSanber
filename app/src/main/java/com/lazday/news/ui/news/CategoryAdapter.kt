@@ -1,4 +1,4 @@
-package com.lazday.news.util
+package com.lazday.news.ui.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,8 +8,8 @@ import com.lazday.news.R
 import com.lazday.news.databinding.AdapterCategoryBinding
 
 class CategoryAdapter(
-        var categories: List<CategoryModel>,
-        var listener: OnAdapterListener,
+    var categories: List<CategoryModel>,
+    var listener: OnAdapterListener,
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     private val items = arrayListOf<TextView>()

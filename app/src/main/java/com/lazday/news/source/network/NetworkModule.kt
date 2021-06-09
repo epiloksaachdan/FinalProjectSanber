@@ -8,9 +8,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val networkModule = module {
-    factory { provideOkHttpClient() }
+    single { provideOkHttpClient() }
     single { provideRetrofit( get() ) }
-    factory { provideNewsApi(get()) }
+    single { provideNewsApi(get()) }
 }
 
 fun provideOkHttpClient() : OkHttpClient {

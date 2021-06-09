@@ -1,10 +1,11 @@
-package com.lazday.news.util
+package com.lazday.news.ui.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lazday.news.databinding.AdapterNewsBinding
 import com.lazday.news.source.news.ArticleModel
+import com.lazday.news.util.FormatUtil
 
 class NewsAdapter(
     var articles: ArrayList<ArticleModel>,

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lazday.news.source.news.NewsModel
 import com.lazday.news.source.news.NewsRepository
-import com.lazday.news.util.CategoryModel
+import com.lazday.news.ui.news.CategoryModel
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
 import timber.log.Timber

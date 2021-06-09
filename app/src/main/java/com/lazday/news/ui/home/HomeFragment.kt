@@ -8,36 +8,27 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lazday.news.R
 import com.lazday.news.databinding.CustomToolbarBinding
 import com.lazday.news.databinding.FragmentHomeBinding
 import com.lazday.news.source.news.ArticleModel
 import com.lazday.news.ui.detail.DetailActivity
-import com.lazday.news.util.CategoryAdapter
-import com.lazday.news.util.CategoryModel
-import com.lazday.news.util.NewsAdapter
-import com.lazday.news.util.TestAdapter
+import com.lazday.news.ui.news.CategoryAdapter
+import com.lazday.news.ui.news.CategoryModel
+import com.lazday.news.ui.news.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 import timber.log.Timber
-import kotlin.math.ceil
 
 val homeModule = module {
     factory { HomeFragment() }
 }
 
-class HomeFragment : Fragment(), TestAdapter.OnAdapterListener {
+class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var toolbar: CustomToolbarBinding
-
-//    private lateinit var testAdapter: TestAdapter
-    override fun onClick(article: ArticleModel) {
-
-    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -46,7 +37,6 @@ class HomeFragment : Fragment(), TestAdapter.OnAdapterListener {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         toolbar = binding.toolbar
-//        testAdapter = TestAdapter(this)
         return binding.root
     }
 
@@ -73,7 +63,6 @@ class HomeFragment : Fragment(), TestAdapter.OnAdapterListener {
         })
 
         binding.listNews.adapter = newsAdapter
-//        binding.listNews.adapter = testAdapter
         viewModel.articles.observe( viewLifecycleOwner, Observer {
             if (it.articles.isEmpty()) {
                 binding.imageAlert.visibility = View.VISIBLE
@@ -85,7 +74,6 @@ class HomeFragment : Fragment(), TestAdapter.OnAdapterListener {
                 binding.listNews.visibility = View.VISIBLE
 
                 newsAdapter.add( it.articles )
-//                testAdapter.submitList( it.articles )
                 Timber.e("articleSize: ${it.articles.size}")
             }
         } )

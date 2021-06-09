@@ -10,7 +10,7 @@ import com.lazday.news.databinding.CustomToolbarBinding
 import com.lazday.news.databinding.FragmentBookmarkBinding
 import com.lazday.news.source.news.ArticleModel
 import com.lazday.news.ui.detail.DetailActivity
-import com.lazday.news.util.NewsAdapter
+import com.lazday.news.ui.news.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -37,17 +37,12 @@ class BookmarkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.titleBar.observe( viewLifecycleOwner, {
-            toolbar.title.text = it
-        })
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+        viewModel.titleBar.observe( viewLifecycleOwner, { toolbar.title.text = it } )
 
         binding.listBookmark.adapter = adapter
-        viewModel.articles.observe(viewLifecycleOwner, {
-            binding.imageAlert.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-            binding.textAlert.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-            binding.listBookmark.visibility =if (it.isEmpty()) View.GONE else View.VISIBLE
-            adapter.add( it )
-        })
+        viewModel.articles.observe(viewLifecycleOwner, { adapter.add( it ) })
     }
 
     private val adapter by lazy {

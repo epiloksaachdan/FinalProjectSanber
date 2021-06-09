@@ -1,4 +1,4 @@
-package com.lazday.news.util
+package com.lazday.news.ui.news
 
 data class CategoryModel (
         val id: String,
