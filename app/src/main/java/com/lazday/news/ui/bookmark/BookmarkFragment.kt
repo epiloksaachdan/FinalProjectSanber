@@ -39,7 +39,7 @@ class BookmarkFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        viewModel.titleBar.observe( viewLifecycleOwner, { toolbar.title.text = it } )
+        toolbar.title = viewModel.title
 
         binding.listBookmark.adapter = adapter
         viewModel.articles.observe(viewLifecycleOwner, {

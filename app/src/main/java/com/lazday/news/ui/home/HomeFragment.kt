@@ -45,12 +45,11 @@ class HomeFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-
-        toolbar.title.text = viewModel.title
+        toolbar.title = viewModel.title
         binding.listCategory.adapter = categoryAdapter
 
-        binding.toolbar.view.inflateMenu(R.menu.menu_search)
-        val menu = binding.toolbar.view.menu
+        binding.toolbar.container.inflateMenu(R.menu.menu_search)
+        val menu = binding.toolbar.container.menu
         val search = menu.findItem(R.id.action_search)
         val searchView = search.actionView as SearchView
         searchView.queryHint = "Search"
@@ -67,14 +66,14 @@ class HomeFragment : Fragment() {
 
         binding.listNews.adapter = newsAdapter
         viewModel.news.observe( viewLifecycleOwner, {
-            newsAdapter.add( it.articles )
             Timber.e("articleSize: ${it.articles.size}")
+            if (viewModel.page == 1) newsAdapter.clear()
+            newsAdapter.add( it.articles )
         })
 
 
         viewModel.category.observe(viewLifecycleOwner, Observer {
             Timber.e("category ${viewModel.category.value}")
-            newsAdapter.clear()
             binding.scroll.scrollTo(0, 0)
             viewModel.page = 1
             viewModel.total = 1
@@ -84,7 +83,7 @@ class HomeFragment : Fragment() {
         binding.scroll.setOnScrollChangeListener {
                 v: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if (scrollY == v?.getChildAt(0)!!.measuredHeight - v.measuredHeight) {
-                if (viewModel.page <= viewModel.total) viewModel.fetch()
+                if (viewModel.page <= viewModel.total && viewModel.loadMore.value == false) viewModel.fetch()
             }
         }
 

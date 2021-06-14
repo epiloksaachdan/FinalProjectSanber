@@ -30,7 +30,7 @@ class DetailActivity : AppCompatActivity() {
         toolbar = binding.toolbar
         setContentView(binding.root)
 
-        setSupportActionBar( toolbar.view )
+        setSupportActionBar( toolbar.container )
         supportActionBar!!.apply {
             title = ""
             setDisplayHomeAsUpEnabled(true)

@@ -10,10 +10,10 @@ val bookmarkViewModel = module {
 }
 
 class BookmarkViewModel(
-    private val repository: NewsRepository
+    repository: NewsRepository
 ) : ViewModel() {
 
-    val titleBar = MutableLiveData<String>("Disimpan")
+    val title = "Disimpan"
     val articles = repository.db.findAll()
 
 }

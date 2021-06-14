@@ -53,7 +53,7 @@
             />
 
         <ImageView
-            android:visibility="@{viewModel.news.articles.size() > 0  ? view.GONE : view.VISIBLE}"
+            android:visibility="@{viewModel.news.articles.size() > 0 || viewModel.loading ? view.GONE : view.VISIBLE}"
             tools:visibility="visible"
             android:id="@+id/image_alert"
             android:layout_width="100dp"
@@ -67,7 +67,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             />
         <TextView
-            android:visibility="@{viewModel.news.articles.size() > 0  ? view.GONE : view.VISIBLE}"
+            android:visibility="@{viewModel.news.articles.size() > 0 || viewModel.loading ? view.GONE : view.VISIBLE}"
             tools:visibility="visible"
             android:id="@+id/text_alert"
             android:layout_width="wrap_content"

@@ -16,14 +16,6 @@ class NewsRepository(
     private val api: ApiClient,
     val db: NewsDao,
 ) {
-    suspend fun fetch() = api.fetchAll()
-
-    suspend fun search(
-            category: String? = "",
-            query: String
-    ): NewsModel {
-        return api.fetchSearch(apiKey, country, category!!, query)
-    }
 
     suspend fun page(
         category: String? = "",

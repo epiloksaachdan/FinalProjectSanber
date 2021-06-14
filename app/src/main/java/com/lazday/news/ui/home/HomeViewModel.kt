@@ -25,11 +25,11 @@ class HomeViewModel(
     val loading by lazy { MutableLiveData<Boolean>() }
     val loadMore by lazy { MutableLiveData<Boolean>() }
     val news by lazy { MutableLiveData<NewsModel>() }
-    val category by lazy { MutableLiveData<String>("") }
+    val category by lazy { MutableLiveData<String>() }
 
     init {
+        category.value = ""
         message.value = null
-        fetch()
     }
 
     var query = ""
