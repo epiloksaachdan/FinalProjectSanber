@@ -55,7 +55,7 @@ class HomeViewModel(
     }
 
     val categories = listOf<CategoryModel>(
-            CategoryModel("", "Semua"),
+            CategoryModel("", "Berita Utama"),
             CategoryModel("business", "Bisnis"),
             CategoryModel("entertainment", "Hiburan"),
             CategoryModel("general", "Umum"),

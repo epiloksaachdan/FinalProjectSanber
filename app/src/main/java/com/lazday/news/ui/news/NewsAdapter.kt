@@ -3,27 +3,55 @@ package com.lazday.news.ui.news
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.lazday.news.databinding.AdapterHeadlineBinding
 import com.lazday.news.databinding.AdapterNewsBinding
 import com.lazday.news.source.news.ArticleModel
 import com.lazday.news.util.FormatUtil
 
+private const val HEADLINES = 1
+private const val NEWS = 2
+
 class NewsAdapter(
     var articles: ArrayList<ArticleModel>,
     var listener: OnAdapterListener,
-) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class ViewHolder(val binding: AdapterNewsBinding): RecyclerView.ViewHolder(binding.root)
+    companion object {
+        var VIEW_TYPE = 1
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder (
-        AdapterNewsBinding.inflate( LayoutInflater.from(parent.context), parent, false )
-    )
+    class ViewHolderHeadlines(val binding: AdapterHeadlineBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(article: ArticleModel){
+            binding.article = article
+            binding.format = FormatUtil()
+        }
+    }
+
+    class ViewHolderNews(val binding: AdapterNewsBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(article: ArticleModel){
+            binding.article = article
+            binding.format = FormatUtil()
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == HEADLINES) {
+            ViewHolderHeadlines (
+                AdapterHeadlineBinding.inflate( LayoutInflater.from(parent.context), parent, false )
+            )
+        } else ViewHolderNews (
+            AdapterNewsBinding.inflate( LayoutInflater.from(parent.context), parent, false )
+        )
+    }
+
+    override fun getItemViewType(position: Int) = VIEW_TYPE
 
     override fun getItemCount() = articles.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val article = articles[position]
-        holder.binding.article = article
-        holder.binding.format = FormatUtil()
+        if (VIEW_TYPE == HEADLINES) (holder as ViewHolderHeadlines).bind( article )
+        else (holder as ViewHolderNews).bind( article )
         holder.itemView.setOnClickListener {
             listener.onClick( article )
         }

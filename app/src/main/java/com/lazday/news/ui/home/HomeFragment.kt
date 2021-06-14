@@ -113,6 +113,7 @@ class HomeFragment : Fragment() {
     private val categoryAdapter by lazy {
         CategoryAdapter(viewModel.categories, object : CategoryAdapter.OnAdapterListener {
             override fun onClick(category: CategoryModel) {
+                NewsAdapter.VIEW_TYPE = if (category.id.isEmpty()) 1 else 2
                 viewModel.category.postValue(category.id)
             }
         })

@@ -16,7 +16,7 @@ class CategoryAdapter(
 
     class ViewHolder(val binding: AdapterCategoryBinding): RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder (
         AdapterCategoryBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
@@ -32,6 +32,7 @@ class CategoryAdapter(
             listener.onClick( category )
             setColor( holder.binding.category )
         }
+        setColor(items[0]) /// first load
     }
 
     interface OnAdapterListener {
