@@ -42,7 +42,10 @@ class BookmarkFragment : Fragment() {
         viewModel.titleBar.observe( viewLifecycleOwner, { toolbar.title.text = it } )
 
         binding.listBookmark.adapter = adapter
-        viewModel.articles.observe(viewLifecycleOwner, { adapter.add( it ) })
+        viewModel.articles.observe(viewLifecycleOwner, {
+            adapter.clear()
+            adapter.add( it )
+        })
     }
 
     private val adapter by lazy {
