@@ -22,7 +22,7 @@ class BookmarkFragment : Fragment() {
 
     private val viewModel: BookmarkViewModel by viewModel()
     private lateinit var binding: FragmentBookmarkBinding
-    private lateinit var toolbar: CustomToolbarBinding
+    private lateinit var bindingToolbar: CustomToolbarBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -30,7 +30,7 @@ class BookmarkFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBookmarkBinding.inflate(inflater, container, false)
-        toolbar = binding.toolbar
+        bindingToolbar = binding.toolbar
         return binding.root
     }
 
@@ -39,7 +39,7 @@ class BookmarkFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        toolbar.title = viewModel.title
+        bindingToolbar.title = viewModel.title
 
         binding.listBookmark.adapter = adapter
         viewModel.articles.observe(viewLifecycleOwner, {

@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var toolbar: CustomToolbarBinding
+    private lateinit var bindingToolbar: CustomToolbarBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        toolbar = binding.toolbar
+        bindingToolbar = binding.toolbar
         return binding.root
     }
 
@@ -45,17 +45,17 @@ class HomeFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        toolbar.title = viewModel.title
+        bindingToolbar.title = viewModel.title
         binding.listCategory.adapter = categoryAdapter
 
-        binding.toolbar.container.inflateMenu(R.menu.menu_search)
+        bindingToolbar.container.inflateMenu(R.menu.menu_search)
         val menu = binding.toolbar.container.menu
         val search = menu.findItem(R.id.action_search)
         val searchView = search.actionView as SearchView
         searchView.queryHint = "Search"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.fetch()
+                firstPage()
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -74,10 +74,7 @@ class HomeFragment : Fragment() {
 
         viewModel.category.observe(viewLifecycleOwner, Observer {
             Timber.e("category ${viewModel.category.value}")
-            binding.scroll.scrollTo(0, 0)
-            viewModel.page = 1
-            viewModel.total = 1
-            viewModel.fetch()
+            firstPage()
         })
 
         binding.scroll.setOnScrollChangeListener {
@@ -93,6 +90,13 @@ class HomeFragment : Fragment() {
                 viewModel.loading.postValue(false)
             }
         })
+    }
+
+    private fun firstPage(){
+        binding.scroll.scrollTo(0, 0)
+        viewModel.page = 1
+        viewModel.total = 1
+        viewModel.fetch()
     }
 
     private val newsAdapter by lazy {

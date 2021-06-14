@@ -1,6 +1,7 @@
 package com.lazday.news.ui.home
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -14,6 +15,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         val navController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
 }
