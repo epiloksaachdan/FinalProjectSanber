@@ -1,6 +1,7 @@
 package com.lazday.news.source.network
 
 import com.google.gson.GsonBuilder
+import com.lazday.news.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -23,7 +24,7 @@ fun provideOkHttpClient() : OkHttpClient {
 
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
-        .baseUrl("https://newsapi.org/v2/")
+        .baseUrl( BuildConfig.BASE_URL )
         .client( okHttpClient )
         .addConverterFactory (
                 GsonConverterFactory.create(

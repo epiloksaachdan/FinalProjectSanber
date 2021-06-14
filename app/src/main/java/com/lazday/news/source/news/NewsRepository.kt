@@ -1,12 +1,11 @@
 package com.lazday.news.source.news
 
+import com.lazday.news.BuildConfig
 import com.lazday.news.source.network.ApiClient
 import org.koin.dsl.module
 import timber.log.Timber
 import kotlin.math.ceil
 
-private const val apiKey = "a3ef8c84c1c7441ca3892e18d4f00a47"
-private const val country = "id"
 
 val repositoryModule = module {
     factory { NewsRepository(get(), get()) }
@@ -22,7 +21,7 @@ class NewsRepository(
         query: String,
         page: Int
     ): NewsModel {
-        return api.fetchPage(apiKey, country, category!!, query, page)
+        return api.fetchPage( BuildConfig.API_KEY, "id", category!!, query, page)
     }
 
     suspend fun find(articleModel: ArticleModel) = db.find(articleModel.publishedAt)
