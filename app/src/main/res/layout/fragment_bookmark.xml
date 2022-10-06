@@ -9,7 +9,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.lazday.news.ui.bookmark.BookmarkViewModel" />
+            type="com.epiloksa.news.ui.bookmark.BookmarkViewModel" />
         <variable
             name="view"
             type="android.view.View" />

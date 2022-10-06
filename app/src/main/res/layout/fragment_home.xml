@@ -9,7 +9,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.lazday.news.ui.home.HomeViewModel" />
+            type="com.epiloksa.news.ui.home.HomeViewModel" />
         <variable
             name="view"
             type="android.view.View" />

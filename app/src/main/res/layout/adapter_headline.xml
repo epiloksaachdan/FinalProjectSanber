@@ -8,10 +8,10 @@
     <data>
         <variable
             name="article"
-            type="com.lazday.news.source.news.ArticleModel" />
+            type="com.epiloksa.news.source.news.ArticleModel" />
         <variable
             name="format"
-            type="com.lazday.news.util.FormatUtil"/>
+            type="com.epiloksa.news.util.FormatUtil"/>
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
